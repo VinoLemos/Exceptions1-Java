@@ -1,4 +1,4 @@
-package application;
+				package application;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import model.entities.Reservation;
 
-// Solução ruim do problema, contendo todas as operações lógicas dentro do programa principal
+// Solução ruim do problema, retornando uma String ao usuário
 
 public class Program {
 
@@ -38,22 +38,17 @@ public class Program {
 			System.out.print("Check-out Date (dd/MM/yyyy): ");
 			checkOut = sdf.parse(sc.next());
 			
-			//Cria data com horário atual
-			Date now = new Date();
-			//Se check-in ou check-out for anterior à data atual: 
-			if(checkIn.before(now) || checkOut.before(now)) {
-				System.out.println("Error in reservation: Reservation dates for update must be future dates");
+			//Lógica que atualiza as datas movida para a classe Reservation na operação updateDates		
+			String error = reservation.updateDates(checkIn, checkOut);
+						
+			//Caso algum erro ocorra na entrada de dados, retornara a string apropriada da 
+			//operação updateDates
+			if (error != null) {
+				System.out.println("Error in reservation: " + error);
+			}else {
+				System.out.println("Reservation: " + reservation);
 			}
-		// Repete verificação feita anteriormente 
-			else if (!checkOut.after(checkIn)) {
-				System.out.println("Error in reservation: Check-out date must be after check-in date");
-			}
-			else {
-			reservation.updateDates(checkIn, checkOut);
 			
-			System.out.println("Reservation: " + reservation);
-			}
 		}
 	}
-
 }
